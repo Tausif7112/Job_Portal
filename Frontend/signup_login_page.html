@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up / Log In</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 350px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%; /* Full width */
+    padding: 10px;
+    padding-right: 40px; /* Add space for the eye icon */
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.input-group div {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group span {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.role-selector {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.role-selector label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.role-selector input[type="radio"] {
+    margin-right: 5px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Sign Up / Log In</h2>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">Email or Username</label>
+                    <div>
+                        <input type="text" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div>
+                        <input type="password" id="password" name="password" required>
+                        <span id="togglePasswordLogin">👁️‍🗨️</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Select your role</label>
+                    <div class="role-selector">
+                        <label>
+                            <input type="radio" id="jobSeekerRadio" name="role" value="jobSeeker">
+                            Job Seeker
+                        </label>
+                        <label>
+                            <input type="radio" id="employerRadio" name="role" value="employer">
+                            Employer
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" id="submitBtn">Log In</button>
+            </form>
+
+            <form id="signupForm" style="display:none;">
+                <div class="input-group">
+                    <label for="emailSignup">Email or Username</label>
+                    <div>
+                        <input type="text" id="emailSignup" name="email" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="passwordSignup">Password</label>
+                    <div>
+                        <input type="password" id="passwordSignup" name="password" required>
+                        <span id="togglePasswordSignup">👁️‍🗨️</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="confirmPasswordSignup">Confirm Password</label>
+                    <div>
+                        <input type="password" id="confirmPasswordSignup" name="confirmPassword" required>
+                        <span id="toggleConfirmPasswordSignup">👁️‍🗨️</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Select your role</label>
+                    <div class="role-selector">
+                        <label>
+                            <input type="radio" id="jobSeekerRadio" name="role" value="jobSeeker">
+                            Job Seeker
+                        </label>
+                        <label>
+                            <input type="radio" id="employerRadio" name="role" value="employer">
+                            Employer
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" id="submitBtn">Sign Up</button>
+            </form>
+
+            <div class="footer">
+                <p id="switchText">Don't have an account? <a href="#" id="switchToSignUp">Sign up</a></p>
+                <p id="switchTextLogin" style="display:none;">Already have an account? <a href="#" id="switchToLogIn">Log in</a></p>
+            </div>
+        </div>
+    </div>
+<script >
+window.onload = function() {
+        const params = new URLSearchParams(window.location.search);
+        const formType = params.get("form");
+
+        if (formType === "signup") {
+            document.getElementById("signupForm").style.display = "block";
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("switchText").style.display = "none";
+            document.getElementById("switchTextLogin").style.display = "block";
+        } else {
+            document.getElementById("signupForm").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+            document.getElementById("switchText").style.display = "block";
+            document.getElementById("switchTextLogin").style.display = "none";
+        }
+};
+
+document.getElementById("switchToSignUp").addEventListener("click", function(e) {
+    e.preventDefault();
+    document.getElementById("signupForm").style.display = "block";
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("switchText").style.display = "none";
+    document.getElementById("switchTextLogin").style.display = "block";
+});
+
+document.getElementById("switchToLogIn").addEventListener("click", function(e) {
+    e.preventDefault();
+    document.getElementById("signupForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("switchText").style.display = "block";
+    document.getElementById("switchTextLogin").style.display = "none";
+});
+
+document.getElementById("jobSeekerRadio").addEventListener("change", function() {
+    if (this.checked) {
+        alert("You selected Job Seeker role.");
+    }
+});
+
+document.getElementById("employerRadio").addEventListener("change", function() {
+    if (this.checked) {
+        alert("You selected Employer role.");
+    }
+});
+
+document.getElementById("togglePasswordLogin").addEventListener("click", function() {
+    const passwordField = document.getElementById("password");
+    const type = passwordField.type === "password" ? "text" : "password";
+    passwordField.type = type;
+    this.textContent = type === "password" ?   "👁️‍🗨️" : "👁️";
+});
+
+document.getElementById("togglePasswordSignup").addEventListener("click", function() {
+    const passwordField = document.getElementById("passwordSignup");
+    const type = passwordField.type === "password" ? "text" : "password";
+    passwordField.type = type;
+    this.textContent = type === "password" ? "👁️‍🗨️" : "👁️";
+});
+
+document.getElementById("toggleConfirmPasswordSignup").addEventListener("click", function() {
+    const confirmPasswordField = document.getElementById("confirmPasswordSignup");
+    const type = confirmPasswordField.type === "password" ? "text" : "password";
+    confirmPasswordField.type = type;
+    this.textContent = type === "password" ? "👁️‍🗨️" : "👁️";
+});
+        
+</script>
+    <script src="main.js"></script>
+</body>
+</html>
