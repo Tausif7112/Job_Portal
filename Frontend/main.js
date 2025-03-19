@@ -4,6 +4,22 @@ const authDropdownBtn = document.getElementById('auth-dropdown-btn');
             authDropdown.style.display = authDropdown.style.display === 'none' ? 'block' : 'none';
         });
 
+
+// Get the buttons from the dropdown
+const loginBtn = document.getElementById('login-btn');
+const signupBtn = document.getElementById('signup-btn');
+
+// Add event listeners to the buttons
+loginBtn.addEventListener('click', function () {
+    window.location.href = "signup_login_page.html?form=login";
+});
+
+signupBtn.addEventListener('click', function () {
+    window.location.href = "signup_login_page.html?form=signup";
+});
+
+
+
 const jobs = [
     { title: 'Software Developer', company: 'TechCorp', location: 'San Francisco, CA', description: 'Develop cutting-edge web applications.' },
     { title: 'Marketing Manager', company: 'MarketingPro', location: 'New York, NY', description: 'Lead marketing campaigns and strategies.' },
