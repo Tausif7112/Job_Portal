@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search</title>
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background-color: #333; /* Changed to match footer color */
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .filter-section {
+            margin: 40px auto;
+            padding: 40px; /* Increased padding */
+            background-color: #f9f9f9; /* Changed background color */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+            border-radius: 15px; /* Increased border radius */
+            max-width: 800px; /* Adjusted width */
+            text-align: left; /* Changed text alignment */
+        }
+
+        .filter-section h2 {
+            font-size: 2rem; /* Increased font size */
+            margin-bottom: 30px; /* Increased margin */
+            color: #007bff; /* Changed color */
+            text-align: center; /* Centered heading */
+        }
+
+        .filter-group {
+            margin-bottom: 25px; /* Increased spacing between groups */
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px; /* Increased margin */
+            color: #333; /* Darkened label color */
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 15px; /* Increased padding */
+            margin-top: 8px; /* Adjusted margin */
+            border-radius: 8px; /* Increased border radius */
+            border: 1px solid #ddd; /* Adjusted border color */
+            font-size: 1rem;
+            background-color: #fff; /* Changed background color */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Added inner shadow */
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 15px; /* Increased padding */
+            width: 100%;
+            border: none;
+            border-radius: 8px; /* Increased border radius */
+            cursor: pointer;
+            font-size: 1.2rem; /* Increased font size */
+            font-weight: bold; /* Made text bold */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Added transform transition */
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05); /* Added hover scaling effect */
+        }
+
+        .job-listing {
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .job-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .job-card h3 {
+            font-size: 1.6rem;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .job-card p {
+            font-size: 1rem;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .location {
+            font-weight: bold;
+        }
+
+        .apply-btn {
+            margin-top: 15px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .apply-btn:hover {
+            background-color: #218838;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .filter-section {
+                padding: 20px;
+            }
+
+            .job-listing {
+                padding: 0 15px;
+            }
+        }
+
+        #skills {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping to the next line */
+            gap: 10px; /* Add spacing between checkboxes */
+        }
+
+        #skills label {
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Add spacing between checkbox and label text */
+            background-color: #f9f9f9; /* Add background for better visibility */
+            padding: 5px 10px; /* Add padding */
+            border: 1px solid #ddd; /* Add border */
+            border-radius: 5px; /* Add rounded corners */
+            cursor: pointer; /* Change cursor to pointer */
+        }
+
+        #skills input[type="checkbox"] {
+            margin: 0; /* Remove default margin */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Job Search Portal</h1>
+    </header>
+
+    <div class="filter-section">
+        <h2>Search Jobs</h2>
+        <form id="job-search-form">
+            <div class="filter-group">
+                <label for="job-type">Job Type</label>
+                <select id="job-type" name="job-type">
+                    <option value="">Select Job Type</option>
+                    <option value="full-time">Full-Time</option>
+                    <option value="part-time">Part-Time</option>
+                    <option value="freelance">Freelance</option>
+                    <option value="internship">Internship</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="">Select Category</option>
+                    <option value="it">IT</option>
+                    <option value="finance">Finance</option>
+                    <option value="banking">Banking</option>
+                    <option value="technician">Technician</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="location">Location</label>
+                <select id="location" name="location">
+                    <option value="">Select Location</option>
+                    <option value="san-francisco">San Francisco, CA</option>
+                    <option value="new-york">New York, NY</option>
+                    <option value="los-angeles">Los Angeles, CA</option>
+                    <option value="remote">Remote</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="skills">Skills</label>
+                <div id="skills" name="skills">
+                    <label><input type="checkbox" value="javascript"> JavaScript</label>
+                    <label><input type="checkbox" value="react"> React</label>
+                    <label><input type="checkbox" value="seo"> SEO</label>
+                    <label><input type="checkbox" value="figma"> Figma</label>
+                    <label><input type="checkbox" value="html"> HTML</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <button type="submit" id="search-btn">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="job-listing" id="job-list"></div>
+
+    <footer>
+        <p>Job Search Portal - Connecting Employers and Job Seekers</p>
+    </footer>
+
+    <script>
+        const skillsByCategory = {
+            it: ['JavaScript', 'React', 'Network Security', 'Ethical Hacking'],
+            finance: ['SEO', 'Financial Modeling', 'Risk Analysis', 'Excel', 'SQL'],
+            banking: ['Customer Service', 'Loan Processing', 'Customer Relations'],
+            technician: ['Hardware Repair', 'Equipment Maintenance', 'Troubleshooting']
+        };
+
+        const jobs = [
+            { title: 'Software Developer', company: 'TechCorp', location: 'San Francisco, CA', skills: 'JavaScript, React', jobType: 'full-time', category: 'it' },
+            { title: 'Cybersecurity Specialist', company: 'SecureTech', location: 'Remote', skills: 'Network Security, Ethical Hacking', jobType: 'full-time', category: 'it' },
+            { title: 'Marketing Manager', company: 'MarketingPro', location: 'New York, NY', skills: 'SEO, Content Marketing', jobType: 'part-time', category: 'finance' },
+            { title: 'Financial Analyst', company: 'FinanceCorp', location: 'New York, NY', skills: 'Financial Modeling, Risk Analysis', jobType: 'full-time', category: 'finance' },
+            { title: 'Data Analyst', company: 'DataCorp', location: 'Remote', skills: 'Excel, SQL', jobType: 'freelance', category: 'finance' },
+            { title: 'Bank Teller', company: 'BankCorp', location: 'New York, NY', skills: 'Customer Service', jobType: 'full-time', category: 'banking' },
+            { title: 'Loan Officer', company: 'Banking Solutions', location: 'San Francisco, CA', skills: 'Loan Processing, Customer Relations', jobType: 'part-time', category: 'banking' },
+            { title: 'Technician', company: 'RepairPro', location: 'Los Angeles, CA', skills: 'Hardware Repair', jobType: 'part-time', category: 'technician' },
+            { title: 'Field Technician', company: 'TechFix', location: 'Los Angeles, CA', skills: 'Equipment Maintenance, Troubleshooting', jobType: 'full-time', category: 'technician' },
+            { title: 'Frontend Developer', company: 'WebWorks', location: 'Remote', skills: 'JavaScript, React', jobType: 'freelance', category: 'it' },
+            { title: 'React Engineer', company: 'CodeCraft', location: 'Remote', skills: 'JavaScript, React', jobType: 'full-time', category: 'it' },
+            { title: 'JavaScript Developer', company: 'DevSolutions', location: 'Remote', skills: 'JavaScript, React', jobType: 'part-time', category: 'it' }
+        ];
+
+        function updateSkills() {
+            const category = document.getElementById('category').value;
+            const skillsDiv = document.getElementById('skills');
+            skillsDiv.innerHTML = ''; // Clear existing checkboxes
+
+            if (category && skillsByCategory[category]) {
+                skillsByCategory[category].forEach(skill => {
+                    const label = document.createElement('label');
+                    label.innerHTML = `<input type="checkbox" value="${skill.toLowerCase()}"> ${skill}`;
+                    skillsDiv.appendChild(label);
+                });
+            }
+        }
+
+        function filterJobs() {
+            const jobType = document.getElementById('job-type').value;
+            const category = document.getElementById('category').value;
+            const location = document.getElementById('location').value.toLowerCase();
+            const selectedSkills = Array.from(document.querySelectorAll('#skills input:checked')).map(input => input.value.toLowerCase());
+
+            const filteredJobs = jobs.filter(job => {
+                const matchesJobType = jobType ? job.jobType === jobType : true;
+                const matchesCategory = category ? job.category === category : true;
+                const matchesLocation = location ? job.location.toLowerCase().includes(location) : true;
+                const matchesSkills = selectedSkills.length > 0 ? selectedSkills.every(skill => job.skills.toLowerCase().includes(skill)) : true;
+
+                return matchesJobType && matchesCategory && matchesLocation && matchesSkills;
+            });
+
+            displayJobs(filteredJobs);
+        }
+
+        function displayJobs(jobArray) {
+            const jobListDiv = document.getElementById('job-list');
+            jobListDiv.innerHTML = ''; 
+
+            if (jobArray.length === 0) {
+                jobListDiv.innerHTML = '<p>No jobs found matching your criteria.</p>';
+            } else {
+                jobArray.forEach(job => {
+                    const jobCard = document.createElement('div');
+                    jobCard.classList.add('job-card');
+
+                    jobCard.innerHTML = `
+                        <h3>${job.title}</h3>
+                        <p>Company: ${job.company}</p>
+                        <p class="location">Location: ${job.location}</p>
+                        <p>Skills: ${job.skills}</p>
+                        <p>Job Type: ${job.jobType}</p>
+                        <p>Category: ${job.category}</p>
+                        <button class="apply-btn">Apply</button>
+                    `;
+
+                    jobListDiv.appendChild(jobCard);
+                });
+            }
+        }
+
+        document.getElementById('category').addEventListener('change', updateSkills);
+        document.getElementById('job-search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            filterJobs();
+        });
+
+        displayJobs(jobs);
+    </script>
+</body>
+</html>
