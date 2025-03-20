@@ -57,5 +57,6 @@ function displayJobs(jobArray) {
 displayJobs(jobs);
 
 function navigateToPage() {
-    window.location.href = "./JobDetails_page.html";
+    window.location.href = "./signup_login_page.html";
 }
+
