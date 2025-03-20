@@ -197,6 +197,18 @@
 
     <header>
         <h1>Job Search Portal</h1>
+        <!-- Navbar with reduced size -->
+        <nav style="background: linear-gradient(90deg, #ff7e5f, #feb47b); padding: 5px; display: flex; justify-content: center; gap: 15px; border-radius: 6px; box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);">
+            <a href="Homepage.html" style="color: white; text-decoration: none; font-weight: bold; font-size: 15px; padding: 4px 6px; border-radius: 3px; transition: background 0.3s;">
+                Home
+            </a>
+            <a href="Create_Resume.html" style="color: white; text-decoration: none; font-weight: bold; font-size: 15px; padding: 4px 6px; border-radius: 3px; transition: background 0.3s;">
+                Create Resume
+            </a>
+            <a href="About_Us.html" style="color: white; text-decoration: none; font-weight: bold; font-size: 15px; padding: 4px 6px; border-radius: 3px; transition: background 0.3s;">
+                About Us
+            </a>
+        </nav>
     </header>
 
     <div class="filter-section">
@@ -267,18 +279,174 @@
         };
 
         const jobs = [
-            { title: 'Software Developer', company: 'TechCorp', location: 'San Francisco, CA', skills: 'JavaScript, React', jobType: 'full-time', category: 'it' },
-            { title: 'Cybersecurity Specialist', company: 'SecureTech', location: 'Remote', skills: 'Network Security, Ethical Hacking', jobType: 'full-time', category: 'it' },
-            { title: 'Marketing Manager', company: 'MarketingPro', location: 'New York, NY', skills: 'SEO, Content Marketing', jobType: 'part-time', category: 'finance' },
-            { title: 'Financial Analyst', company: 'FinanceCorp', location: 'New York, NY', skills: 'Financial Modeling, Risk Analysis', jobType: 'full-time', category: 'finance' },
-            { title: 'Data Analyst', company: 'DataCorp', location: 'Remote', skills: 'Excel, SQL', jobType: 'freelance', category: 'finance' },
-            { title: 'Bank Teller', company: 'BankCorp', location: 'New York, NY', skills: 'Customer Service', jobType: 'full-time', category: 'banking' },
-            { title: 'Loan Officer', company: 'Banking Solutions', location: 'San Francisco, CA', skills: 'Loan Processing, Customer Relations', jobType: 'part-time', category: 'banking' },
-            { title: 'Technician', company: 'RepairPro', location: 'Los Angeles, CA', skills: 'Hardware Repair', jobType: 'part-time', category: 'technician' },
-            { title: 'Field Technician', company: 'TechFix', location: 'Los Angeles, CA', skills: 'Equipment Maintenance, Troubleshooting', jobType: 'full-time', category: 'technician' },
-            { title: 'Frontend Developer', company: 'WebWorks', location: 'Remote', skills: 'JavaScript, React', jobType: 'freelance', category: 'it' },
-            { title: 'React Engineer', company: 'CodeCraft', location: 'Remote', skills: 'JavaScript, React', jobType: 'full-time', category: 'it' },
-            { title: 'JavaScript Developer', company: 'DevSolutions', location: 'Remote', skills: 'JavaScript, React', jobType: 'part-time', category: 'it' }
+            {
+                title: 'Software Developer',
+                company: 'TechCorp',
+                location: 'San Francisco, CA',
+                skills: 'JavaScript, React',
+                jobType: 'full-time',
+                category: 'it',
+                description: 'Develop cutting-edge web applications using modern technologies. Collaborate with cross-functional teams to design, develop, and deploy scalable solutions. Ensure code quality through regular code reviews and testing.',
+                requirements: 'Strong knowledge of JavaScript, React, Node.js, and databases.',
+                salary: '$10,000 - $12,500 per month',
+                postDate: 'March 15, 2025', // Updated to a recent date
+                aboutCompany: 'TechCorp is a leading technology company specializing in innovative software solutions. With a global presence and a commitment to excellence, we empower businesses to achieve their goals through cutting-edge technology.',
+                companyWebsite: 'www.techcorp.com'
+            },
+            {
+                title: 'Cybersecurity Specialist',
+                company: 'SecureTech',
+                location: 'Remote',
+                skills: 'Network Security, Ethical Hacking',
+                jobType: 'full-time',
+                category: 'it',
+                description: 'Ensure the security of company systems and networks through ethical hacking and monitoring.',
+                requirements: 'Experience in network security and ethical hacking.',
+                salary: '$8,000 - $10,000 per month',
+                postDate: 'March 14, 2025', // Updated to a recent date
+                aboutCompany: 'SecureTech specializes in cybersecurity solutions to protect businesses from digital threats.',
+                companyWebsite: 'www.securetech.com'
+            },
+            {
+                title: 'Marketing Manager',
+                company: 'MarketingPro',
+                location: 'New York, NY',
+                skills: 'SEO, Content Marketing',
+                jobType: 'part-time',
+                category: 'finance',
+                description: 'Plan and execute marketing strategies to improve brand visibility and engagement.',
+                requirements: 'Proven experience in SEO and content marketing.',
+                salary: '$5,000 - $7,000 per month',
+                postDate: 'March 13, 2025', // Updated to a recent date
+                aboutCompany: 'MarketingPro is a leading marketing agency helping businesses grow their online presence.',
+                companyWebsite: 'www.marketingpro.com'
+            },
+            {
+                title: 'Financial Analyst',
+                company: 'FinanceCorp',
+                location: 'New York, NY',
+                skills: 'Financial Modeling, Risk Analysis',
+                jobType: 'full-time',
+                category: 'finance',
+                description: 'Analyze financial data and create financial models to support decision-making.',
+                requirements: 'Experience in financial modeling and risk analysis.',
+                salary: '$6,000 - $8,000 per month',
+                postDate: 'March 12, 2025', // Updated to a recent date
+                aboutCompany: 'FinanceCorp provides financial consulting services to businesses worldwide.',
+                companyWebsite: 'www.financecorp.com'
+            },
+            {
+                title: 'Data Analyst',
+                company: 'DataCorp',
+                location: 'Remote',
+                skills: 'Excel, SQL',
+                jobType: 'freelance',
+                category: 'finance',
+                description: 'Analyze data sets and provide insights using Excel and SQL.',
+                requirements: 'Proficiency in Excel and SQL.',
+                salary: '$4,000 - $6,000 per month',
+                postDate: 'March 11, 2025', // Updated to a recent date
+                aboutCompany: 'DataCorp specializes in data analysis and business intelligence solutions.',
+                companyWebsite: 'www.datacorp.com'
+            },
+            {
+                title: 'Bank Teller',
+                company: 'BankCorp',
+                location: 'New York, NY',
+                skills: 'Customer Service',
+                jobType: 'full-time',
+                category: 'banking',
+                description: 'Assist customers with banking transactions and provide excellent customer service.',
+                requirements: 'Strong customer service skills.',
+                salary: '$3,000 - $4,000 per month',
+                postDate: 'March 15, 2025', // Updated to a recent date
+                aboutCompany: 'BankCorp is a leading bank providing a wide range of financial services.',
+                companyWebsite: 'www.bankcorp.com'
+            },
+            {
+                title: 'Loan Officer',
+                company: 'Banking Solutions',
+                location: 'San Francisco, CA',
+                skills: 'Loan Processing, Customer Relations',
+                jobType: 'part-time',
+                category: 'banking',
+                description: 'Process loan applications and maintain customer relations.',
+                requirements: 'Experience in loan processing and customer relations.',
+                salary: '$4,000 - $5,000 per month',
+                postDate: 'March 14, 2025', // Updated to a recent date
+                aboutCompany: 'Banking Solutions offers comprehensive banking and financial services.',
+                companyWebsite: 'www.bankingsolutions.com'
+            },
+            {
+                title: 'Technician',
+                company: 'RepairPro',
+                location: 'Los Angeles, CA',
+                skills: 'Hardware Repair',
+                jobType: 'part-time',
+                category: 'technician',
+                description: 'Repair and maintain hardware equipment.',
+                requirements: 'Experience in hardware repair.',
+                salary: '$3,500 - $4,500 per month',
+                postDate: 'March 13, 2025', // Updated to a recent date
+                aboutCompany: 'RepairPro provides repair and maintenance services for various equipment.',
+                companyWebsite: 'www.repairpro.com'
+            },
+            {
+                title: 'Field Technician',
+                company: 'TechFix',
+                location: 'Los Angeles, CA',
+                skills: 'Equipment Maintenance, Troubleshooting',
+                jobType: 'full-time',
+                category: 'technician',
+                description: 'Maintain and troubleshoot equipment in the field.',
+                requirements: 'Experience in equipment maintenance and troubleshooting.',
+                salary: '$4,500 - $6,000 per month',
+                postDate: 'March 12, 2025', // Updated to a recent date
+                aboutCompany: 'TechFix specializes in field maintenance and repair services.',
+                companyWebsite: 'www.techfix.com'
+            },
+            {
+                title: 'Frontend Developer',
+                company: 'WebWorks',
+                location: 'Remote',
+                skills: 'JavaScript, React',
+                jobType: 'freelance',
+                category: 'it',
+                description: 'Develop and maintain frontend applications using JavaScript and React.',
+                requirements: 'Proficiency in JavaScript and React.',
+                salary: '$5,000 - $7,000 per month',
+                postDate: 'March 11, 2025', // Updated to a recent date
+                aboutCompany: 'WebWorks is a web development company creating innovative web solutions.',
+                companyWebsite: 'www.webworks.com'
+            },
+            {
+                title: 'React Engineer',
+                company: 'CodeCraft',
+                location: 'Remote',
+                skills: 'JavaScript, React',
+                jobType: 'full-time',
+                category: 'it',
+                description: 'Build and maintain applications using React and JavaScript.',
+                requirements: 'Strong knowledge of React and JavaScript.',
+                salary: '$6,000 - $8,000 per month',
+                postDate: 'March 15, 2025', // Updated to a recent date
+                aboutCompany: 'CodeCraft is a software development company specializing in modern web technologies.',
+                companyWebsite: 'www.codecraft.com'
+            },
+            {
+                title: 'JavaScript Developer',
+                company: 'DevSolutions',
+                location: 'Remote',
+                skills: 'JavaScript, React',
+                jobType: 'part-time',
+                category: 'it',
+                description: 'Develop applications using JavaScript and React.',
+                requirements: 'Experience in JavaScript and React.',
+                salary: '$4,000 - $6,000 per month',
+                postDate: 'March 13, 2025', // Updated to a recent date
+                aboutCompany: 'DevSolutions provides software development services to clients worldwide.',
+                companyWebsite: 'www.devsolutions.com'
+            }
         ];
 
         function updateSkills() {
@@ -331,12 +499,17 @@
                         <p>Skills: ${job.skills}</p>
                         <p>Job Type: ${job.jobType}</p>
                         <p>Category: ${job.category}</p>
-                        <button class="apply-btn">Apply</button>
+                        <button class="apply-btn" onclick="viewJobDetails(${JSON.stringify(job).replace(/"/g, '&quot;')})">Apply</button>
                     `;
 
                     jobListDiv.appendChild(jobCard);
                 });
             }
+        }
+
+        function viewJobDetails(job) {
+            localStorage.setItem('selectedJob', JSON.stringify(job));
+            window.location.href = 'Job_Details.html';
         }
 
         document.getElementById('category').addEventListener('change', updateSkills);
