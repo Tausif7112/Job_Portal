@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Seeker Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #eef2f7;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: #ffffff;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      position: relative;
+    }
+    header {
+      background-color: black; /* Set header background to black by default */
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      position: relative;
+      border-bottom: 4px solid #357abd;
+    }
+    .user-icon {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      border: 2px solid #4a90e2;
+      transition: transform 0.3s ease;
+    }
+    .user-icon:hover {
+      transform: scale(1.1);
+    }
+    .dropdown {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      overflow: hidden;
+    }
+    .dropdown a {
+      display: block;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .dropdown a:hover {
+      background-color: #4a90e2;
+      color: white;
+    }
+    .dropdown a:last-child {
+      font-size: 12px; /* Keep "Sign Out" text smaller */
+      font-style: normal; /* Change from italic to normal */
+      font-weight: bold; /* Add bold styling for emphasis */
+    }
+    .nav {
+      display: flex;
+      justify-content: space-around;
+      background-color: #f0f4ff;
+      border-bottom: 2px solid #d6e4f5;
+    }
+    .nav button {
+      flex: 1;
+      padding: 15px 0;
+      border: none;
+      background-color: transparent;
+      color: #333;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav button.active, .nav button:hover {
+      background-color: #28a745; /* Green background for active buttons */
+      color: white;
+    }
+    .section {
+      padding: 20px;
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .section.active {
+      display: block;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    form input:focus, form textarea:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+    form button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    form button:hover {
+      background-color: #218838;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background-color: #f9f9f9;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: box-shadow 0.3s;
+    }
+    ul li:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    ul li button {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    ul li button:hover {
+      background-color: #357abd;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      My Dashboard
+      <div class="user-icon" id="userIcon" style="background-image: url('https://via.placeholder.com/40')"></div>
+      <div class="dropdown" id="userDropdown">
+        <a href="#" onclick="showSection('profile')">Profile</a>
+        <a href="#" onclick="resetPassword()">Reset Password</a> <!-- Added Reset Password option -->
+        <a href="#" onclick="signOut()">Sign Out</a>
+      </div>
+    </header>
+    
+    <div class="nav">
+      <button onclick="showSection('jobs')" class="active">Jobs</button>
+      <button onclick="showSection('applications')">Applications</button>
+    </div>
+
+    <div id="jobs" class="section active">
+      <h2>Available Jobs</h2>
+      <ul id="jobList"></ul>
+    </div>
+
+    <div id="applications" class="section">
+      <h2>Your Applications</h2>
+      <ul id="appliedJobs"></ul>
+    </div>
+
+    <div id="profile" class="section">
+      <h2>Profile</h2>
+      <form id="profileForm">
+        <label for="profileImage">Upload Profile Image:</label>
+        <div style="display: flex; align-items: center; gap: 10px; border: 1px solid #ccc; padding: 10px; border-radius: 4px;">
+          <input type="file" id="profileImage" accept="image/*" onchange="updateProfileImage(event)" style="flex: 1;">
+          <button type="button" id="removeImage" style="display: none; background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;" onclick="removeProfileImage()">Remove</button>
+        </div>
+        
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" placeholder="Full Name" required>
+        
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" placeholder="Email Address" required>
+        
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
+        
+        <label for="address">Address:</label>
+        <textarea id="address" rows="2" placeholder="Your Address" required></textarea>
+        
+        <label for="skills">Skills:</label>
+        <input type="text" id="skills" placeholder="e.g., JavaScript, Python, React" required>
+        
+        <label for="experience">Experience (Years):</label>
+        <input type="number" id="experience" placeholder="Years of Experience" required>
+        
+        <label for="resume">Upload Resume:</label>
+        <div style="display: flex; align-items: center; gap: 10px; border: 1px solid #ccc; padding: 10px; border-radius: 4px;">
+          <input type="file" id="resume" accept=".pdf,.doc,.docx" style="flex: 1;" onchange="handleResumeChange()">
+          <button type="button" id="removeResume" style="display: none; background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;" onclick="removeResume()">Remove</button>
+        </div>
+        
+        <button type="submit">Save Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const jobs = [
+      { id: 1, title: 'Frontend Developer' },
+      { id: 2, title: 'Backend Developer' },
+      { id: 3, title: 'Full Stack Developer' },
+      { id: 4, title: 'UI/UX Designer' }
+    ];
+    
+    const appliedJobs = [];
+
+    document.getElementById('userIcon').addEventListener('click', () => {
+      const dropdown = document.getElementById('userDropdown');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    });
+
+    function updateProfileImage(event) {
+      const userIcon = document.getElementById('userIcon');
+      const removeButton = document.getElementById('removeImage');
+      const reader = new FileReader();
+      reader.onload = () => {
+        userIcon.style.backgroundImage = `url(${reader.result})`;
+        removeButton.style.display = 'inline-block'; // Show the remove button
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function removeProfileImage() {
+      const userIcon = document.getElementById('userIcon');
+      const profileImageInput = document.getElementById('profileImage');
+      const removeButton = document.getElementById('removeImage');
+      userIcon.style.backgroundImage = "url('https://via.placeholder.com/40')"; // Reset to placeholder
+      profileImageInput.value = ""; // Clear the input value
+      removeButton.style.display = 'none'; // Hide the remove button
+    }
+
+    function showSection(section) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(section).classList.add('active');
+      document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
+      if (event.target.tagName === 'BUTTON') {
+        event.target.classList.add('active');
+      }
+
+      if (section === 'jobs') loadJobs();
+      if (section === 'applications') loadApplications();
+    }
+
+    async function loadJobs() {
+      const jobList = document.getElementById('jobList');
+      jobList.innerHTML = '<li>Loading jobs...</li>'; // Show loading message
+
+      try {
+        const response = await fetch('Browse_Jobs'); // Ensure this URL is correct
+        if (!response.ok) throw new Error('Failed to fetch jobs');
+        const fetchedJobs = await response.json(); // Assume the response is JSON
+
+        jobList.innerHTML = fetchedJobs.length
+          ? fetchedJobs.map(job => `<li>${job.title} <button onclick="applyJob(${job.id})">Apply</button></li>`).join('')
+          : '<li>No jobs available.</li>';
+      } catch (error) {
+        console.error(error);
+        // Fallback for testing if the fetch fails
+        const fallbackJobs = [
+          { id: 1, title: 'Frontend Developer' },
+          { id: 2, title: 'Backend Developer' },
+          { id: 3, title: 'Full Stack Developer' },
+          { id: 4, title: 'UI/UX Designer' }
+        ];
+        jobList.innerHTML = fallbackJobs.map(job => `<li>${job.title} <button onclick="applyJob(${job.id})">Apply</button></li>`).join('');
+      }
+    }
+
+    function applyJob(jobId) {
+      const job = appliedJobs.find(j => j.id === jobId);
+      if (!job) {
+        const newJob = { id: jobId, title: `Job ${jobId}` }; // Placeholder for job title
+        appliedJobs.push(newJob);
+        alert(`Applied to "${newJob.title}"`);
+      } else {
+        alert(`Already applied to "${job.title}"`);
+      }
+    }
+
+    function loadApplications() {
+      const appliedJobsList = document.getElementById('appliedJobs');
+      appliedJobsList.innerHTML = appliedJobs.length
+        ? appliedJobs.map(job => `<li>${job.title}</li>`).join('')
+        : '<li>No applications yet.</li>';
+    }
+
+    function signOut() {
+      window.location.href = 'Homepage.html'; // Redirect to homepage
+    }
+
+    function resetPassword() {
+      window.location.href = 'Reset_Password.html'; // Redirect to reset password page
+    }
+
+    function handleResumeChange() {
+      const resumeInput = document.getElementById('resume');
+      const removeButton = document.getElementById('removeResume');
+      if (resumeInput.files.length > 0) {
+        removeButton.style.display = 'inline-block'; // Show the remove button when a file is selected
+      }
+    }
+
+    function removeResume() {
+      const resumeInput = document.getElementById('resume');
+      const removeButton = document.getElementById('removeResume');
+
+      // Clear the file input value
+      resumeInput.value = ""; // Reset the file input
+      removeButton.style.display = 'none'; // Hide the remove button
+    }
+
+    document.getElementById('resume').addEventListener('change', handleResumeChange);
+
+    // Ensure the resume field starts empty and the remove button is hidden
+    document.addEventListener('DOMContentLoaded', () => {
+      const resumeInput = document.getElementById('resume');
+      const removeButton = document.getElementById('removeResume');
+      resumeInput.value = ""; // Clear any pre-filled value
+      removeButton.style.display = 'none'; // Ensure the remove button is hidden
+    });
+
+    window.onload = loadJobs;
+  </script>
+</body>
+</html>
