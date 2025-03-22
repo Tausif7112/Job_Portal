@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 60%;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        /* Button Styling */
+        button {
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #0056b3, #003f7f);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .remove-btn {
+            background-color: #ff4d4d;
+            color: white;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .remove-btn:hover {
+            background-color: #cc0000;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            color: #444;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* Resume Preview */
+        .resume-preview {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            width: 60%;
+            display: none;
+        }
+
+        .preview-content h2 {
+            font-size: 20px;
+            color: #444;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .preview-content p, .preview-content li {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container, .resume-preview {
+                width: 90%;
+                padding: 20px;
+            }
+
+            h1, h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Your Resume</h1>
+
+        <form id="resume-form">
+            <div class="section">
+                <h2>Personal Information</h2>
+                <label>Full Name</label>
+                <input type="text" id="full-name" placeholder="Enter your full name" required>
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+                <label>Phone Number</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="section">
+                <h2>Work Experience</h2>
+                <div id="work-experience-container"></div>
+                <button type="button" id="add-work-btn">+ Add Work Experience</button>
+            </div>
+
+            <div class="section">
+                <h2>Education</h2>
+                <div id="education-container"></div>
+                <button type="button" id="add-education-btn">+ Add Education</button>
+            </div>
+
+            <div class="section">
+                <h2>Skills</h2>
+                <textarea id="skills" rows="3" placeholder="List skills (comma-separated)"></textarea>
+            </div>
+
+            <button type="button" id="preview-btn">Preview Resume</button>
+            <button type="button" id="download-btn">Download Resume</button>
+        </form>
+    </div>
+
+    <div class="resume-preview" id="resume-preview">
+        <h1>Resume Preview</h1>
+        <div class="preview-content">
+            <h2>Personal Information</h2>
+            <p><strong>Name:</strong> <span id="preview-name"></span></p>
+            <p><strong>Email:</strong> <span id="preview-email"></span></p>
+            <p><strong>Phone:</strong> <span id="preview-phone"></span></p>
+
+            <h2>Work Experience</h2>
+            <ul id="preview-work"></ul>
+
+            <h2>Education</h2>
+            <ul id="preview-education"></ul>
+
+            <h2>Skills</h2>
+            <p id="preview-skills"></p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        document.getElementById('add-work-btn').addEventListener('click', () => {
+            const container = document.getElementById('work-experience-container');
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <label>Job Title</label>
+                <input type="text" placeholder="Enter your job title" required>
+                <label>Company</label>
+                <input type="text" placeholder="Enter company name" required>
+                <label>Start Date</label>
+                <input type="month" required>
+                <label>End Date</label>
+                <input type="month" placeholder="Leave blank if ongoing">
+                <label>Responsibilities</label>
+                <textarea rows="3" placeholder="Describe your responsibilities"></textarea>
+                <button type="button" class="remove-btn">Remove</button>
+            `;
+            container.appendChild(div);
+            div.querySelector('.remove-btn').addEventListener('click', () => div.remove());
+        });
+
+        document.getElementById('add-education-btn').addEventListener('click', () => {
+            const container = document.getElementById('education-container');
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <label>Degree</label>
+                <input type="text" placeholder="Enter your degree (e.g., Bachelor of Science)" required>
+                <label>Institution</label>
+                <input type="text" placeholder="Enter institution name" required>
+                <label>Start Date</label>
+                <input type="month" required>
+                <label>End Date</label>
+                <input type="month" placeholder="Leave blank if ongoing">
+                <label>Achievements</label>
+                <textarea rows="3" placeholder="List your academic achievements"></textarea>
+                <button type="button" class="remove-btn">Remove</button>
+            `;
+            container.appendChild(div);
+            div.querySelector('.remove-btn').addEventListener('click', () => div.remove());
+        });
+
+        document.getElementById('preview-btn').addEventListener('click', () => {
+            document.getElementById('preview-name').innerText = document.getElementById('full-name').value;
+            document.getElementById('preview-email').innerText = document.getElementById('email').value;
+            document.getElementById('preview-phone').innerText = document.getElementById('phone').value;
+
+            let workList = "";
+            document.querySelectorAll('#work-experience-container div').forEach(div => {
+                const inputs = div.querySelectorAll('input, textarea');
+                workList += `
+                    <li>
+                        <strong>${inputs[0].value}</strong> at ${inputs[1].value} (${inputs[2].value} - ${inputs[3].value || 'Present'})
+                        <p>${inputs[4].value}</p>
+                    </li>
+                `;
+            });
+            document.getElementById('preview-work').innerHTML = workList;
+
+            let educationList = "";
+            document.querySelectorAll('#education-container div').forEach(div => {
+                const inputs = div.querySelectorAll('input, textarea');
+                educationList += `
+                    <li>
+                        <strong>${inputs[0].value}</strong> from ${inputs[1].value} (${inputs[2].value} - ${inputs[3].value || 'Present'})
+                        <p>${inputs[4].value}</p>
+                    </li>
+                `;
+            });
+            document.getElementById('preview-education').innerHTML = educationList;
+
+            document.getElementById('preview-skills').innerText = document.getElementById('skills').value;
+
+            document.getElementById('resume-preview').style.display = 'block';
+        });
+
+        document.getElementById('download-btn').addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+
+            const content = document.querySelector('.resume-preview');
+            if (!content || content.style.display === 'none') {
+                alert('Please preview the resume before downloading.');
+                return;
+            }
+
+            html2canvas(content, { scale: 2, useCORS: true }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                // Add the first page
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                // Add additional pages if content overflows
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                // Save the PDF
+                pdf.save('resume.pdf');
+            }).catch(error => {
+                console.error('Error generating PDF:', error);
+                alert('An error occurred while generating the PDF. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>
