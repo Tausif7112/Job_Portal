@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employer Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #eef2f7;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: #ffffff;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      position: relative;
+    }
+    header {
+      background-color: black;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      border-bottom: 4px solid #357abd;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-around;
+      background-color: #f0f4ff;
+      border-bottom: 2px solid #d6e4f5;
+    }
+    .nav button {
+      flex: 1;
+      padding: 15px 0;
+      border: none;
+      background-color: transparent;
+      color: #333;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav button.active, .nav button:hover {
+      background-color: #007bff;
+      color: white;
+    }
+    .section {
+      padding: 20px;
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .section.active {
+      display: block;
+    }
+    form input, form textarea, form button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    form button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    form button:hover {
+      background-color: #0056b3;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background-color: #f9f9f9;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    ul li button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    ul li button:hover {
+      background-color: #0056b3;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      Employer Dashboard
+      <div class="user-icon" id="userIcon" style="background: linear-gradient(135deg, #007bff, #0056b3); width: 50px; height: 50px; border-radius: 50%; position: absolute; right: 20px; top: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 18px; border: 2px solid white; overflow: hidden;">
+        <img id="userIconImage" src="" alt="User Icon" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+        <span id="userIconInitials">U</span>
+      </div>
+      <div class="dropdown" id="userDropdown" style="display: none; position: absolute; right: 20px; top: 70px; background: white; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); z-index: 1000; width: 150px; font-size: 14px;">
+        <a href="#" onclick="showSection('profile')" style="display: block; padding: 8px 12px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;">Profile</a>
+        <a href="Reset_Password.html" style="display: block; padding: 8px 12px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;">Reset Password</a>
+        <a href="#" onclick="signOut()" style="display: block; padding: 8px 12px; text-decoration: none; color: #333;">Sign Out</a>
+      </div>
+    </header>
+    
+    <div class="nav">
+      <button onclick="showSection('postJob')" class="active">Post Job</button>
+      <button onclick="showSection('manageApplications')">Manage Applications</button>
+    </div>
+
+    <div id="postJob" class="section active">
+      <h2>Post a New Job</h2>
+      <form id="postJobForm">
+        <label for="jobTitle">Job Title:</label>
+        <input type="text" id="jobTitle" placeholder="Job Title" required>
+        
+        <label for="jobDescription">Job Description:</label>
+        <textarea id="jobDescription" rows="4" placeholder="Job Description" required></textarea>
+        
+        <label for="jobRequirements">Requirements:</label>
+        <textarea id="jobRequirements" rows="3" placeholder="Job Requirements" required></textarea>
+        
+        <label for="jobSalary">Salary:</label>
+        <input type="text" id="jobSalary" placeholder="Salary" required>
+        
+        <button type="submit">Post Job</button>
+      </form>
+    </div>
+
+    <div id="manageApplications" class="section">
+      <h2>Manage Applications</h2>
+      <ul id="applicationsList">
+        <li>
+          Applicant 1
+          <div>
+            <button onclick="downloadResume()">Download Resume</button>
+            <button onclick="shortlistApplicant()">Shortlist</button>
+          </div>
+        </li>
+        <li>
+          Applicant 2
+          <div>
+            <button onclick="downloadResume()">Download Resume</button>
+            <button onclick="shortlistApplicant()">Shortlist</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div id="profile" class="section">
+      <h2>Employer Profile</h2>
+      <div style="display: flex; align-items: center; margin-bottom: 20px;">
+        <img id="profileImage" src="https://via.placeholder.com/100" alt="Profile Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-right: 20px; display: none;">
+        <div>
+          <label for="profileUploadImage" id="uploadLabel" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer; font-size: 14px; text-align: center; transition: background 0.3s;">Upload Image</label>
+          <input type="file" id="profileUploadImage" accept="image/*" style="display: none;">
+          <button id="profileRemoveImage" style="display: none; margin-top: 10px; padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: background 0.3s;">Remove Image</button>
+        </div>
+      </div>
+      <form id="profileForm">
+        <label for="employerName">Name:</label>
+        <input type="text" id="employerName" placeholder="Enter your full name" required>
+
+        <label for="employerEmail">Email:</label>
+        <input type="email" id="employerEmail" placeholder="Enter your email address" required>
+
+        <label for="companyName">Company Name:</label>
+        <input type="text" id="companyName" placeholder="Enter your company's name" required>
+
+        <label for="contactNumber">Contact Number:</label>
+        <input type="text" id="contactNumber" placeholder="Enter your contact number" required>
+
+        <label for="address">Address:</label>
+        <textarea id="address" rows="3" placeholder="Enter your company's address" required></textarea>
+
+        <label for="website">Website:</label>
+        <input type="url" id="website" placeholder="Enter your company's website URL" required>
+
+        <label for="aboutCompany">About Company:</label>
+        <textarea id="aboutCompany" rows="4" placeholder="Provide a brief description about your company" required></textarea>
+
+        <button type="submit">Update Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function showSection(section) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(section).classList.add('active');
+      document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function downloadResume() {
+      alert('Downloading resume...');
+      // Add logic to download the resume
+    }
+
+    function shortlistApplicant() {
+      alert('Applicant shortlisted.');
+      // Add logic to mark the applicant as shortlisted
+    }
+
+    document.getElementById('postJobForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      alert('Job posted successfully!');
+      // Add logic to handle job posting
+    });
+
+    document.getElementById('profileForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      alert('Profile updated successfully!');
+      // Add logic to handle profile updates
+    });
+
+    const userIcon = document.getElementById('userIcon');
+    const userDropdown = document.getElementById('userDropdown');
+
+    userIcon.addEventListener('click', () => {
+      userDropdown.style.display = userDropdown.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!userIcon.contains(event.target) && !userDropdown.contains(event.target)) {
+        userDropdown.style.display = 'none';
+      }
+    });
+
+    function resetPassword() {
+      alert('Reset password functionality coming soon!');
+      // Add logic for resetting password
+    }
+
+    function signOut() {
+      alert('You have been signed out.');
+      window.location.href = 'Homepage.html'; // Redirect to homepage
+    }
+
+    const profileUploadImage = document.getElementById('profileUploadImage');
+    const profileImage = document.getElementById('profileImage');
+    const profileRemoveImage = document.getElementById('profileRemoveImage');
+    const uploadLabel = document.getElementById('uploadLabel');
+
+    profileUploadImage.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          profileImage.src = e.target.result;
+          profileImage.style.display = 'block';
+          profileRemoveImage.style.display = 'inline-block';
+          uploadLabel.style.display = 'none';
+
+          // Update user icon
+          const userIconImage = document.getElementById('userIconImage');
+          const userIconInitials = document.getElementById('userIconInitials');
+          userIconImage.src = e.target.result;
+          userIconImage.style.display = 'block';
+          userIconInitials.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    profileRemoveImage.addEventListener('click', (event) => {
+      event.preventDefault();
+      profileImage.src = "https://via.placeholder.com/100";
+      profileImage.style.display = 'none';
+      profileRemoveImage.style.display = 'none';
+      uploadLabel.style.display = 'inline-block';
+      profileUploadImage.value = null;
+
+      // Reset user icon
+      const userIconImage = document.getElementById('userIconImage');
+      const userIconInitials = document.getElementById('userIconInitials');
+      userIconImage.style.display = 'none';
+      userIconInitials.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
